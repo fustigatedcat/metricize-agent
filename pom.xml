@@ -1,0 +1,98 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                      http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <relativePath>../parent/pom.xml</relativePath>
+        <groupId>com.fustigatedcat.metricize</groupId>
+        <artifactId>parent</artifactId>
+        <version>0.1</version>
+    </parent>
+
+    <!-- The Basics -->
+    <groupId>com.fustigatedcat.metricize.agent</groupId>
+    <artifactId>agent</artifactId>
+    <packaging>jar</packaging>
+    <name>metricize_agent</name>
+    <description>The agent for metricize</description>
+    <url></url>
+    <inceptionYear>2015</inceptionYear>
+    <developers>
+        <developer>
+            <id>jbackfield</id>
+            <name>Josh Backfield</name>
+            <email>jbackfield@gmail.com</email>
+            <url/>
+            <roles>
+                <role>architect</role>
+                <role>developer</role>
+            </roles>
+            <timezone>America/New_York</timezone>
+            <properties>
+                <picUrl/>
+            </properties>
+        </developer>
+    </developers>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.spray</groupId>
+            <artifactId>spray-servlet_${scala.maj.version}</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.spray</groupId>
+            <artifactId>spray-routing_${scala.maj.version}</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.json4s</groupId>
+            <artifactId>json4s-native_${scala.maj.version}</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.typesafe.akka</groupId>
+            <artifactId>akka-actor_${scala.maj.version}</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.typesafe.slick</groupId>
+            <artifactId>slick_${scala.maj.version}</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.typesafe</groupId>
+            <artifactId>config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.typesafe.akka</groupId>
+            <artifactId>akka-camel_${scala.maj.version}</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-rabbitmq</artifactId>
+        </dependency>
+    </dependencies>
+
+    <!-- Build Settings -->
+    <build>
+    </build>
+
+</project>
