@@ -20,6 +20,10 @@ object Configuration {
       val reload = config.getInt("agent.conf.reload")
       val file = config.getString("agent.conf.file")
     }
+    object library {
+      val downloads = config.getString("agent.library.downloads")
+      val storage = config.getString("agent.library.storage")
+    }
   }
 
   lazy val agentConf = {

@@ -87,7 +87,7 @@ object Agent {
   def startAgentTypeLoaderActor = {
     ActorSystems.generalActorSystem.scheduler.schedule(
       Duration.Zero,
-      Duration.create(Configuration.agent.conf.reload, TimeUnit.SECONDS),
+      Duration.create(Configuration.agent.conf.reload, if(Configuration.agentConf.isEmpty) { TimeUnit.SECONDS } else { TimeUnit.MINUTES }),
       ActorSystems.generalActorSystem.actorOf(Props[AgentTypeLoaderActor]),
       LoadAgent
     )
@@ -95,6 +95,12 @@ object Agent {
 
   def main(args : Array[String]) : Unit = {
     startAgentTypeLoaderActor
+    Configuration.agentConf match {
+      case Some(config) => {
+
+      }
+      case _ => logger.warn("No agent started since agent is not defined")
+    }
   }
 
 }
