@@ -4,8 +4,10 @@ import java.io.{FileReader, FileInputStream, FileWriter, File}
 import java.util.concurrent.TimeUnit
 
 import akka.actor.Props
-import com.fustigatedcat.metricize.agent.processor.{LoadAgent, AgentTypeLoaderActor}
-import com.typesafe.config.ConfigFactory
+import akka.routing.RoundRobinPool
+import com.fustigatedcat.metricize.agent.intf.AgentWorkerInterface
+import com.fustigatedcat.metricize.agent.processor.{ProcessMessage, AgentWorkerActor, LoadAgent, AgentTypeLoaderActor}
+import com.typesafe.config.{Config, ConfigFactory}
 import dispatch._, Defaults._
 import org.apache.commons.lang3.RandomStringUtils
 import org.json4s.DefaultFormats
@@ -97,7 +99,10 @@ object Agent {
     startAgentTypeLoaderActor
     Configuration.agentConf match {
       case Some(config) => {
-
+        val clazz = Class.forName("com.fustigatedcat.metricize.agent.AgentWorker")
+        val const = clazz.getDeclaredConstructor(classOf[Config])
+        val actor = ActorSystems.generalActorSystem.actorOf(Props(classOf[AgentWorkerActor], const.newInstance(config).asInstanceOf[AgentWorkerInterface]))
+        actor ! ProcessMessage
       }
       case _ => logger.warn("No agent started since agent is not defined")
     }
