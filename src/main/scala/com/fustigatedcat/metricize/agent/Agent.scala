@@ -97,13 +97,8 @@ object Agent {
 
   def main(args : Array[String]) : Unit = {
     startAgentTypeLoaderActor
-    Configuration.agentConf match {
-      case Some(config) => {
-        val clazz = Class.forName("com.fustigatedcat.metricize.agent.AgentWorker")
-        val const = clazz.getDeclaredConstructor(classOf[Config])
-        val actor = ActorSystems.generalActorSystem.actorOf(Props(classOf[AgentWorkerActor], const.newInstance(config).asInstanceOf[AgentWorkerInterface]))
-        actor ! ProcessMessage
-      }
+    ActorSystems.workerProcessor match {
+      case Some(worker) => worker ! ProcessMessage
       case _ => logger.warn("No agent started since agent is not defined")
     }
   }
