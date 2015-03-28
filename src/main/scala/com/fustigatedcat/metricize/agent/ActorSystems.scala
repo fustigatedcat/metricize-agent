@@ -15,10 +15,10 @@ object ActorSystems {
   val statisticsProcessors = generalActorSystem.actorOf(RoundRobinPool(nrOfInstances = 5).props(Props[StatisticsProcessorActor]))
 
   val workerProcessor = Configuration.agentConf match {
-    case Some(config) => {
-      val clazz = Class.forName("com.fustigatedcat.metricize.agent.AgentWorker")
-      val const = clazz.getDeclaredConstructor(classOf[Config])
-      Some(ActorSystems.generalActorSystem.actorOf(Props(classOf[AgentWorkerActor], const.newInstance(config).asInstanceOf[AgentWorkerInterface])))
+    case Some(config) if Symbol(config.getString("agentType")) != 'NONE => {
+        val clazz = Class.forName(s"com.fustigatedcat.metricize.agent.${config.getString("agentType")}AgentWorker")
+        val const = clazz.getDeclaredConstructor(classOf[Config])
+        Some(ActorSystems.generalActorSystem.actorOf(Props(classOf[AgentWorkerActor], const.newInstance(config).asInstanceOf[AgentWorkerInterface])))
     }
     case _ => None
   }

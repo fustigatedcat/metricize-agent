@@ -42,25 +42,13 @@ class AgentTypeLoaderActor extends Actor {
     }
   }
 
-  def loadAgentJar(agentType : String) = {
-    logger.debug(s"Loading agent jar [${Configuration.agent.library.downloads}/$agentType.jar]")
-    val input = new URL(s"${Configuration.agent.library.downloads}/$agentType.jar")
-    val rbc = Channels.newChannel(input.openStream())
-    val f = new File(s"${Configuration.agent.library.storage}/agent-body.jar")
-    if(f.exists()) { f.delete() }
-    val fos = new FileOutputStream(s"${Configuration.agent.library.storage}/agent-body.jar")
-    logger.debug(s"Writing to agent body jar [${Configuration.agent.library.storage}/agent-body.jar]")
-    fos.getChannel.transferFrom(rbc, 0, Long.MaxValue)
-  }
-
   def receive = {
     case LoadAgent => getAgentConfig match {
       case Some(json) => (json \ "agentType").extractOpt[String] match {
-        case Some(agentType) if Symbol(agentType) != 'NONE => {
+        case Some(agentType) => {
           val newConfig = (json \ "config").merge("agentType" -> agentType : JObject)
           if(changed_?(Configuration.agent.conf.file, newConfig)) {
             logger.warn("Configuration has changed!")
-            loadAgentJar(agentType)
             val file = new FileWriter(Configuration.agent.conf.file)
             file.write(prettyJson(renderJValue(newConfig)))
             file.close()
@@ -70,7 +58,6 @@ class AgentTypeLoaderActor extends Actor {
             logger.debug("Configuration did not change")
           }
         }
-        case Some(agentType) => logger.warn("Agent type not set yet")
         case _ =>
       }
       case _ =>
