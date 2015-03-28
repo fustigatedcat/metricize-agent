@@ -59,6 +59,10 @@
             <groupId>com.fustigatedcat.metricize.agent</groupId>
             <artifactId>agent-mysql</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.fustigatedcat.metricize.agent</groupId>
+            <artifactId>agent-postgres</artifactId>
+        </dependency>
     </dependencies>
 
     <!-- Build Settings -->

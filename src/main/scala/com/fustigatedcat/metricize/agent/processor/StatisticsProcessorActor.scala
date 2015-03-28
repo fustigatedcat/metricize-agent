@@ -45,7 +45,6 @@ class StatisticsProcessorActor extends Actor {
 
   def postMessage(message : JValue) = {
     val body = prettyJson(renderJValue(message))
-    println(s"Sending body $body")
     val svc = Http(url(s"${Configuration.api.baseurl}/statistics").POST <:<
       Map("Content-Type" -> "application/json", "Authorization" -> Agent.agentKey) <<
       body
