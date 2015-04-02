@@ -27,7 +27,7 @@ class StatisticsProcessorActor extends Actor {
   def convertMessage(response : AgentResponse) : JValue = response match {
     case AgentResponseSuccess(startTime, time, message) => {
       val encoded = gzipMessage(message)
-      ("status" -> "success") ~
+      ("status" -> "SUCCESS") ~
         ("startTime" -> startTime) ~
         ("time" -> time) ~
         ("md5" -> DigestUtils.md5Hex(message)) ~
@@ -35,7 +35,7 @@ class StatisticsProcessorActor extends Actor {
     }
     case AgentResponseFailure(startTime, time, message) => {
       val encoded = gzipMessage(message)
-      ("status" -> "failure") ~
+      ("status" -> "FAILURE") ~
         ("startTime" -> startTime) ~
         ("time" -> time) ~
         ("md5" -> DigestUtils.md5Hex(message)) ~
